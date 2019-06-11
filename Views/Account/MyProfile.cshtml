@@ -1,0 +1,44 @@
+﻿@model GigHub.Models.RegisterViewModel
+
+@{
+    ViewBag.Title = "MyProfile";
+}
+
+<h2>MyProfile</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+        <dt>
+
+        </dt>
+
+        <dd>
+            @{
+                var imageFile = Model.Name + Model.ImagePath.Substring(Model.ImagePath.Length - 4);
+                <img src="~/Image/@imageFile" width="300" height="300" />
+
+            }
+
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

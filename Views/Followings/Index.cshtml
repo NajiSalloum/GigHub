@@ -1,0 +1,75 @@
+﻿@model IEnumerable<GigHub.ViewModels.FollowingView>
+
+@{
+    ViewBag.Title = "Artist I'm Following";
+}
+
+<h2>Artist I'm Following</h2>
+
+
+<table class="table">
+    <tr>
+
+        <th>
+            @Html.Label("Name")
+        </th>
+        <th>
+            @Html.Label(" ")
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @{
+                    if (item.ImagePath == "no-user.png")
+                    {
+                        <img src="~/Image/no-user.png" width="100" height="100" class="circular-square" />
+                    }
+
+
+                    else
+                    {
+                        var imageFile = item.Name + item.ImagePath.Substring(item.ImagePath.Length - 4);
+                        <img src="~/Image/@imageFile" width="100" height="100" class="circular-square" />
+                    }
+
+
+                }
+            </td>
+
+            <td>
+                <button data-user-id="@item.Id  " data-attr="@item.Name" class="btn btn-link btn-sm js-toggle-follow">Following</button>
+                @*@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })*@
+            </td>
+        </tr>
+    }
+
+</table>
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            $(".js-toggle-follow").click(function (e) {
+                var button = $(e.target);
+                $.post("/api/followings", { followeeId: button.attr("data-user-id") })
+                    .done(function () {
+                        button
+                            .text("Following");
+                    })
+                    .fail(function () {
+                        button
+                            .text("Follow");
+                    });
+            });
+        });
+    </script>
+}
